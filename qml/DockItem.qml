@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2021 CutefishOS Team.
+ * Copyright (C) 2021 YoyoOS Team.
  *
  * Author:     rekols <revenmartin@gmail.com>
  *
@@ -20,7 +20,7 @@
 import QtQuick 2.12
 import QtQuick.Controls 2.12
 import QtGraphicalEffects 1.0
-import Cutefish.Dock 1.0
+import Yoyo.Dock 1.0
 import FishUI 1.0 as FishUI
 
 Item {

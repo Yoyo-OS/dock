@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2021 CutefishOS Team.
+ * Copyright (C) 2021 YoyoOS Team.
  *
  * Author:     rekols <revenmartin@gmail.com>
  *
@@ -29,9 +29,9 @@ ProcessProvider::ProcessProvider(QObject *parent)
 
 bool ProcessProvider::startDetached(const QString &exec, QStringList args)
 {
-    QDBusInterface iface("com.cutefish.Session",
+    QDBusInterface iface("com.yoyo.Session",
                          "/Session",
-                         "com.cutefish.Session", QDBusConnection::sessionBus());
+                         "com.yoyo.Session", QDBusConnection::sessionBus());
 
     if (iface.isValid()) {
         iface.asyncCall("launch", exec, args).waitForFinished();

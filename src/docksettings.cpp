@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2021 CutefishOS Team.
+ * Copyright (C) 2021 YoyoOS Team.
  *
  * Author:     rekols <revenmartin@gmail.com>
  *
@@ -43,7 +43,7 @@ DockSettings::DockSettings(QObject *parent)
     , m_roundedWindowEnabled(true)
     , m_direction(Left)
     , m_visibility(AlwaysShow)
-    , m_settings(new QSettings(QSettings::UserScope, "cutefishos", "dock"))
+    , m_settings(new QSettings(QSettings::UserScope, "yoyoos", "dock"))
 {
     if (!m_settings->contains("IconSize"))
         m_settings->setValue("IconSize", 53);

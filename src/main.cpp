@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2021 CutefishOS Team.
+ * Copyright (C) 2021 YoyoOS Team.
  *
  * Author:     rekols <revenmartin@gmail.com>
  *
@@ -33,13 +33,13 @@ int main(int argc, char *argv[])
     QCoreApplication::setAttribute(Qt::AA_UseHighDpiPixmaps, true);
     QApplication app(argc, argv);
 
-    if (!QDBusConnection::sessionBus().registerService("com.cutefish.Dock")) {
+    if (!QDBusConnection::sessionBus().registerService("com.yoyo.Dock")) {
         return -1;
     }
 
-    qmlRegisterType<DockSettings>("Cutefish.Dock", 1, 0, "DockSettings");
+    qmlRegisterType<DockSettings>("Yoyo.Dock", 1, 0, "DockSettings");
 
-    QString qmFilePath = QString("%1/%2.qm").arg("/usr/share/cutefish-dock/translations/").arg(QLocale::system().name());
+    QString qmFilePath = QString("%1/%2.qm").arg("/usr/share/yoyo-dock/translations/").arg(QLocale::system().name());
     if (QFile::exists(qmFilePath)) {
         QTranslator *translator = new QTranslator(QApplication::instance());
         if (translator->load(qmFilePath)) {

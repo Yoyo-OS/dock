@@ -1,7 +1,7 @@
-Source: cutefish-dock
+Source: yoyo-dock
 Section: devel
 Priority: optional
-Maintainer: CutefishOS <cutefishos@foxmail.com>
+Maintainer: YoyoOS <yoyoos@foxmail.com>
 Build-Depends: cmake,
                debhelper (>= 9),
                extra-cmake-modules,
@@ -13,9 +13,9 @@ Build-Depends: cmake,
                qttools5-dev,
                qttools5-dev-tools
 Standards-Version: 4.5.0
-Homepage: https://cutefishos.com
+Homepage: https://yoyoos.com
 
-Package: cutefish-dock
+Package: yoyo-dock
 Architecture: any
 Depends: qml-module-qtquick-controls2,
          qml-module-qtquick2,
@@ -28,4 +28,4 @@ Depends: qml-module-qtquick-controls2,
          qml-module-qtgraphicaleffects,
          ${misc:Depends},
          ${shlibs:Depends}
-Description: CutefishOS Dock
+Description: YoyoOS Dock

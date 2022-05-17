@@ -1,6 +1,6 @@
 # Dock
 
-CutefishOS application dock.
+YoyoOS application dock.
 
 ## Dependencies
 
@@ -8,7 +8,7 @@ CutefishOS application dock.
 sudo pacman -S gcc cmake qt5-base qt5-quickcontrols2 kwindowsystem
 ```
 
-You also need [`fishui`](https://github.com/cutefishos/fishui) and [`libcutefish`](https://github.com/cutefishos/libcutefish).
+You also need [`fishui`](https://github.com/yoyoos/fishui) and [`libyoyo`](https://github.com/yoyoos/libyoyo).
 
 ## Build and Install
 

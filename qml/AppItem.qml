@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2021 CutefishOS Team.
+ * Copyright (C) 2021 YoyoOS Team.
  *
  * Author:     rekols <revenmartin@gmail.com>
  *
@@ -19,7 +19,7 @@
 
 import QtQuick 2.12
 import QtQuick.Controls 2.12
-import Cutefish.Dock 1.0
+import Yoyo.Dock 1.0
 import FishUI 1.0 as FishUI
 
 DockItem {
@@ -52,7 +52,7 @@ DockItem {
 
     onPositionChanged: updateGeometry()
     onPressed: updateGeometry()
-    onRightClicked: if (model.appId !== "cutefish-launcher") contextMenu.show()
+    onRightClicked: if (model.appId !== "yoyo-launcher") contextMenu.show()
 
     onClicked: {
         if (mouse.button === Qt.LeftButton)
