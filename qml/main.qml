@@ -197,10 +197,11 @@ Item {
             rowSpacing: 0
             Layout.topMargin: 0
             Layout.bottomMargin: 0
-            Layout.rightMargin: isHorizontal ? 10 : 0
-            Layout.leftMargin: isHorizontal ? 10 : 0
+            Layout.rightMargin: FishUI.Units.smallSpacing
+            Layout.leftMargin: FishUI.Units.smallSpacing
             onWidthChanged: {
                 rightWidth = rightLayout.width
+                mainWindow.updateSize()
             }
 
         SystemTray {

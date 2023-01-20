@@ -53,3 +53,7 @@ compile_commands.json
 
 build/*
 .vscode/
+debian/.debhelper
+debian/files
+debian/yoyo-dock*
+obj-x86_64*
