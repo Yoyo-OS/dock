@@ -20,19 +20,14 @@
 #include "mainwindow.h"
 #include "processprovider.h"
 #include "dockadaptor.h"
-
+#include "battery.h"
 #include <QGuiApplication>
-#include <QScreen>
 
 #include <QQmlEngine>
 #include <QQmlContext>
 #include <QQmlProperty>
 #include <QQuickItem>
 #include <QMetaEnum>
-
-#include <NETWM>
-#include <KWindowSystem>
-#include <KWindowEffects>
 
 MainWindow::MainWindow(QQuickView *parent)
     : QQuickView(parent)
@@ -46,7 +41,8 @@ MainWindow::MainWindow(QQuickView *parent)
     , m_hideTimer(new QTimer(this))
 {
     new DockAdaptor(this);
-
+    QSettings settings("yoyoos", "locale");
+    m_twentyFourTime = settings.value("twentyFour", false).toBool();
     installEventFilter(this);
 
     setDefaultAlphaBuffer(false);
@@ -61,9 +57,11 @@ MainWindow::MainWindow(QQuickView *parent)
     engine()->rootContext()->setContextProperty("Settings", m_settings);
     engine()->rootContext()->setContextProperty("mainWindow", this);
     engine()->rootContext()->setContextProperty("trash", m_trashManager);
+    engine()->rootContext()->setContextProperty("battery", Battery::self());
 
     setSource(QUrl(QStringLiteral("qrc:/qml/main.qml")));
     setScreen(qApp->primaryScreen());
+    updateGeometry();
     setResizeMode(QQuickView::SizeRootObjectToView);
     initScreens();
 
@@ -104,6 +102,27 @@ void MainWindow::add(const QString &desktop)
     m_appModel->addItem(desktop);
 }
 
+QRect MainWindow::screenRect()
+{
+    return m_screenRect;
+}
+
+void MainWindow::updateGeometry()
+{
+    const QRect rect = screen()->geometry();
+
+    if (m_screenRect != rect) {
+        m_screenRect = rect;
+        emit screenRectChanged();
+    }
+
+    QRect windowRect = QRect(rect.x(), rect.y(), rect.width(), 25);
+    setGeometry(windowRect);
+    updateViewStruts();
+
+    KWindowEffects::enableBlurBehind(winId(), true);
+}
+
 void MainWindow::remove(const QString &desktop)
 {
     m_appModel->removeItem(desktop);
@@ -127,6 +146,19 @@ int MainWindow::direction() const
 int MainWindow::visibility() const
 {
     return DockSettings::self()->visibility();
+}
+
+bool MainWindow::twentyFourTime()
+{
+    return m_twentyFourTime;
+}
+
+void MainWindow::setTwentyFourTime(bool t)
+{
+    if (m_twentyFourTime != t) {
+        m_twentyFourTime = t;
+        emit twentyFourTimeChanged();
+    }
 }
 
 void MainWindow::setDirection(int direction)
@@ -166,10 +198,14 @@ QRect MainWindow::windowRect() const
 
     bool isHorizontal = m_settings->direction() == DockSettings::Bottom;
     bool compositing = false;
+    int rightWidth;
+    int rightHeight;
     QQuickItem *item = qobject_cast<QQuickItem *>(rootObject());
 
     if (item) {
         compositing = item->property("compositing").toBool();
+        rightWidth = item->property("rightWidth").toInt();
+        rightHeight = item->property("rightWidth").toInt();
     }
 
     QSize newSize(0, 0);
@@ -178,10 +214,11 @@ QRect MainWindow::windowRect() const
                                  : availableGeometry.height() - m_settings->edgeMargins();;
 
     // Add trash item.
-    int appCount = m_appModel->rowCount() + 1;
+    int appCount = m_appModel->rowCount();
     int iconSize = m_settings->iconSize();
     iconSize += iconSize * 0.1;
-    int length = appCount * iconSize;
+    int length = appCount * iconSize + rightWidth + 12;
+
     int margins = compositing ? DockSettings::self()->edgeMargins() / 2 : 0;
 
     if (length >= maxLength) {
@@ -359,6 +396,11 @@ void MainWindow::onPrimaryScreenChanged(QScreen *screen)
     initScreens();
     setScreen(screen);
     resizeWindow();
+    disconnect(this->screen());
+    updateGeometry();
+
+    connect(screen, &QScreen::virtualGeometryChanged, this, &MainWindow::updateGeometry);
+    connect(screen, &QScreen::geometryChanged, this, &MainWindow::updateGeometry);
 }
 
 void MainWindow::onPositionChanged()

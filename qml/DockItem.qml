@@ -45,7 +45,7 @@ Item {
 
     property var popupText
 
-    property double iconSizeRatio: 0.8
+    property double iconSizeRatio: 0.7
     property var iconName
 
     property bool dragStarted: false

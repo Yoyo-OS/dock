@@ -23,9 +23,15 @@
 #include <QTranslator>
 #include <QLocale>
 #include <QDBusConnection>
-
+#include "systemtray/systemtraymodel.h"
 #include "applicationmodel.h"
+#include "notifications.h"
 #include "mainwindow.h"
+#include "brightness.h"
+#include "battery.h"
+#include "poweractions.h"
+#include "controlcenterdialog.h"
+#include "appearance.h"
 
 int main(int argc, char *argv[])
 {
@@ -37,8 +43,15 @@ int main(int argc, char *argv[])
         return -1;
     }
 
-    qmlRegisterType<DockSettings>("Yoyo.Dock", 1, 0, "DockSettings");
-
+    const char *uri = "Yoyo.Dock";
+    qmlRegisterType<DockSettings>(uri, 1, 0, "DockSettings");
+    qmlRegisterType<SystemTrayModel>(uri, 1, 0, "SystemTrayModel");
+    qmlRegisterType<ControlCenterDialog>(uri, 1, 0, "ControlCenterDialog");
+    qmlRegisterType<Appearance>(uri, 1, 0, "Appearance");
+    qmlRegisterType<Notifications>(uri, 1, 0, "Notifications");
+    qmlRegisterType<Brightness>(uri, 1, 0, "Brightness");
+    qmlRegisterType<Battery>(uri, 1, 0, "Battery");
+    qmlRegisterType<PowerActions>(uri, 1, 0, "PowerActions");
     QString qmFilePath = QString("%1/%2.qm").arg("/usr/share/yoyo-dock/translations/").arg(QLocale::system().name());
     if (QFile::exists(qmFilePath)) {
         QTranslator *translator = new QTranslator(QApplication::instance());

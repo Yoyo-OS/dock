@@ -21,17 +21,29 @@ import QtQuick 2.12
 import QtQuick.Controls 2.12
 import QtQuick.Layouts 1.12
 import QtGraphicalEffects 1.0
-
+import Yoyo.System 1.0 as System
+import Yoyo.NetworkManagement 1.0 as NM
 import Yoyo.Dock 1.0
 import FishUI 1.0 as FishUI
 
 Item {
     id: root
     visible: true
+    property int iconSize: 18
 
     property bool isHorizontal: Settings.direction === DockSettings.Bottom
+    property bool darkMode: FishUI.Theme.darkMode
+    property color textColor: FishUI.Theme.darkMode ? "#FFFFFF" : "#000000";
+    property var fontSize: isHorizontal ? root.height / 5 : root.width / 5
+    property var timeFormat: mainWindow.twentyFourTime ? "HH:mm" : "h:mm ap"
+    property int rightWidth: 0
+    property int rightHeight: 0
     property real windowRadius: isHorizontal ? root.height * 0.3 : root.width * 0.3
     property bool compositing: windowHelper.compositing
+
+    onTimeFormatChanged: {
+        timeTimer.restart()
+    }
 
     onCompositingChanged: {
         mainWindow.updateSize()
@@ -99,7 +111,6 @@ Item {
         flow: isHorizontal ? Grid.LeftToRight : Grid.TopToBottom
         columnSpacing: 0
         rowSpacing: 0
-
         ListView {
             id: appItemView
             orientation: isHorizontal ? Qt.Horizontal : Qt.Vertical
@@ -126,55 +137,233 @@ Item {
             }
         }
 
-        DockItem {
-            id: trashItem
-            implicitWidth: isHorizontal ? root.height : root.width
-            implicitHeight: isHorizontal ? root.height : root.width
-            popupText: qsTr("Trash")
-            enableActivateDot: false
-            iconName: trash.count === 0 ? "user-trash-empty" : "user-trash-full"
-            onClicked: trash.openTrash()
-            onRightClicked: trashMenu.popup()
+//        DockItem {
+//            id: trashItem
+//            implicitWidth: isHorizontal ? root.height : root.width
+//            implicitHeight: isHorizontal ? root.height : root.width
+//            popupText: qsTr("Trash")
+//            enableActivateDot: false
+//            iconName: trash.count === 0 ? "user-trash-empty" : "user-trash-full"
+//            onClicked: trash.openTrash()
+//            onRightClicked: trashMenu.popup()
 
-            dropArea.enabled: true
+//            dropArea.enabled: true
 
-            onDropped: {
-                if (drop.hasUrls) {
-                    trash.moveToTrash(drop.urls)
-                }
+//            onDropped: {
+//                if (drop.hasUrls) {
+//                    trash.moveToTrash(drop.urls)
+//                }
+//            }
+
+//            Rectangle {
+//                anchors.fill: parent
+//                anchors.margins: FishUI.Units.smallSpacing / 2
+//                color: "transparent"
+//                border.color: FishUI.Theme.textColor
+//                radius: height * 0.3
+//                border.width: 1 / FishUI.Units.devicePixelRatio
+//                border.pixelAligned: FishUI.Units.devicePixelRatio > 1 ? false : true
+//                opacity: trashItem.dropArea.containsDrag ? 0.5 : 0
+
+//                Behavior on opacity {
+//                    NumberAnimation {
+//                        duration: 200
+//                    }
+//                }
+//            }
+
+//            FishUI.DesktopMenu {
+//                id: trashMenu
+
+//                MenuItem {
+//                    text: qsTr("Open")
+//                    onTriggered: trash.openTrash()
+//                }
+
+//                MenuItem {
+//                    text: qsTr("Empty Trash")
+//                    onTriggered: trash.emptyTrash()
+//                    visible: trash.count !== 0
+//                }
+//            }
+//        }
+
+        // System tray(Right)
+
+        GridLayout {
+            id:rightLayout
+            flow: isHorizontal ? Grid.LeftToRight : Grid.TopToBottom
+            columnSpacing: 0
+            rowSpacing: 0
+            Layout.topMargin: 0
+            Layout.bottomMargin: 0
+            Layout.rightMargin: isHorizontal ? 10 : 0
+            Layout.leftMargin: isHorizontal ? 10 : 0
+            onWidthChanged: {
+                rightWidth = rightLayout.width
             }
 
-            Rectangle {
-                anchors.fill: parent
-                anchors.margins: FishUI.Units.smallSpacing / 2
-                color: "transparent"
-                border.color: FishUI.Theme.textColor
-                radius: height * 0.3
-                border.width: 1 / FishUI.Units.devicePixelRatio
-                border.pixelAligned: FishUI.Units.devicePixelRatio > 1 ? false : true
-                opacity: trashItem.dropArea.containsDrag ? 0.5 : 0
+        SystemTray {
+        }
 
-                Behavior on opacity {
-                    NumberAnimation {
-                        duration: 200
+        StandardItem {
+                    id: controler
+
+                    checked: controlCenter.item.visible
+                    animationEnabled: true
+                    Layout.fillHeight: true
+                    Layout.preferredWidth: _controlerLayout.implicitWidth + FishUI.Units.largeSpacing
+
+                    onClicked: {
+                        toggleDialog()
+                    }
+
+                    function toggleDialog() {
+                        if (controlCenter.item.visible)
+                            controlCenter.item.close()
+                        else {
+                            // 先初始化，用户可能会通过Alt鼠标左键移动位置
+                            controlCenter.item.position = Qt.point(0, 0)
+                            controlCenter.item.position = mapToGlobal(0, 0)
+                            controlCenter.item.open()
+                        }
+                    }
+
+                    RowLayout {
+                        id: _controlerLayout
+                        anchors.fill: parent
+                        anchors.leftMargin: FishUI.Units.smallSpacing
+                        anchors.rightMargin: FishUI.Units.smallSpacing
+
+                        spacing: FishUI.Units.largeSpacing
+
+                        Image {
+                            id: volumeIcon
+                            visible: controlCenter.item.defaultSink
+                            source: "qrc:/images/" + (root.darkMode ? "dark/" : "light/") + controlCenter.item.volumeIconName + ".svg"
+                            width: root.iconSize
+                            height: width
+                            sourceSize: Qt.size(width, height)
+                            asynchronous: true
+                            Layout.alignment: Qt.AlignCenter
+                            antialiasing: true
+                            smooth: false
+                        }
+
+                        Image {
+                            id: wirelessIcon
+                            width: root.iconSize
+                            height: width
+                            sourceSize: Qt.size(width, height)
+                            source: activeConnection.wirelessIcon ? "qrc:/images/" + (root.darkMode ? "dark/" : "light/") + activeConnection.wirelessIcon + ".svg" : ""
+                            asynchronous: true
+                            Layout.alignment: Qt.AlignCenter
+                            visible: enabledConnections.wirelessHwEnabled &&
+                                     enabledConnections.wirelessEnabled &&
+                                     activeConnection.wirelessName &&
+                                     wirelessIcon.status === Image.Ready
+                            antialiasing: true
+                            smooth: false
+                        }
+
+                        // Battery Item
+                        RowLayout {
+                            visible: battery.available
+
+                            Image {
+                                id: batteryIcon
+                                height: root.iconSize
+                                width: height + 6
+                                sourceSize: Qt.size(width, height)
+                                source: "qrc:/images/" + (root.darkMode ? "dark/" : "light/") + battery.iconSource
+                                Layout.alignment: Qt.AlignCenter
+                                antialiasing: true
+                                smooth: false
+                            }
+
+                            Label {
+                                text: battery.chargePercent + "%"
+                                font.pointSize: root.fontSize
+                                color: root.textColor
+                                visible: battery.showPercentage
+                            }
+                        }
+                    }
+                }
+
+                StandardItem {
+                    id: shutdownItem
+
+                    animationEnabled: true
+                    Layout.fillHeight: true
+                    Layout.preferredWidth: shutdownIcon.implicitWidth + FishUI.Units.smallSpacing
+                    checked: shutdownDialog.item.visible
+
+                    onClicked: {
+                        shutdownDialog.item.position = Qt.point(0, 0)
+                        shutdownDialog.item.position = mapToGlobal(0, 0)
+                        shutdownDialog.item.open()
+                    }
+
+                    Image {
+                        id: shutdownIcon
+                        anchors.centerIn: parent
+                        width: root.iconSize
+                        height: width
+                        sourceSize: Qt.size(width, height)
+                        source: "qrc:/images/" + (root.darkMode ? "dark/" : "light/") + "system-shutdown-symbolic.svg"
+                        asynchronous: true
+                        antialiasing: true
+                        smooth: false
+                    }
+                }
+
+        // Pop-up notification center and calendar
+        StandardItem {
+            id: datetimeItem
+            animationEnabled: true
+            Layout.fillHeight: true
+            Layout.preferredWidth: _dateTimeLayout.implicitWidth + FishUI.Units.smallSpacing
+
+            onClicked: {
+                process.startDetached("yoyo-notificationd", ["-s"])
+            }
+
+            RowLayout {
+                id: _dateTimeLayout
+                anchors.fill: parent
+
+//                Image {
+//                    width: root.iconSize
+//                    height: width
+//                    sourceSize: Qt.size(width, height)
+//                    source: "qrc:/images/" + (root.darkMode ? "dark/" : "light/") + "notification-symbolic.svg"
+//                    asynchronous: true
+//                    Layout.alignment: Qt.AlignCenter
+//                    antialiasing: true
+//                    smooth: false
+//                }
+
+                Label {
+                    id: timeLabel
+                    Layout.alignment: Qt.AlignCenter
+                    font.pointSize: root.fontSize
+                    color: root.textColor
+
+                    Timer {
+                        id: timeTimer
+                        interval: 1000
+                        repeat: true
+                        running: true
+                        triggeredOnStart: true
+                        onTriggered: {
+                            timeLabel.text = new Date().toLocaleTimeString(Qt.locale(), mainWindow.twentyFourTime ? root.timeFormat
+                                                                                                                 : Locale.ShortFormat)
+                        }
                     }
                 }
             }
-
-            FishUI.DesktopMenu {
-                id: trashMenu
-
-                MenuItem {
-                    text: qsTr("Open")
-                    onTriggered: trash.openTrash()
-                }
-
-                MenuItem {
-                    text: qsTr("Empty Trash")
-                    onTriggered: trash.emptyTrash()
-                    visible: trash.count !== 0
-                }
-            }
+        }
         }
     }
 
@@ -193,4 +382,74 @@ Item {
             popupTips.hide()
         }
     }
+
+    MouseArea {
+            id: _sliding
+            anchors.fill: parent
+            z: -1
+
+            property int startY: -1
+            property bool activated: false
+
+            onActivatedChanged: {
+                // TODO
+                // if (activated)
+                //     acticity.move()
+            }
+
+            onPressed: {
+                startY = mouse.y
+            }
+
+            onReleased: {
+                startY = -1
+            }
+
+            onDoubleClicked: {
+                acticity.toggleMaximize()
+            }
+
+            onMouseYChanged: {
+                if (startY === parseInt(mouse.y)) {
+                    activated = false
+                    return
+                }
+
+                // Up
+                if (startY > parseInt(mouse.y)) {
+                    activated = false
+                    return
+                }
+
+                if (mouse.y > rootItem.height)
+                    activated = true
+                else
+                    activated = false
+            }
+        }
+
+        // Components
+        Loader {
+            id: controlCenter
+            sourceComponent: ControlCenter {}
+            asynchronous: true
+        }
+
+        Loader {
+            id: shutdownDialog
+            sourceComponent: ShutdownDialog {}
+            asynchronous: true
+        }
+
+        NM.ActiveConnection {
+            id: activeConnection
+        }
+
+        NM.EnabledConnections {
+            id: enabledConnections
+        }
+
+        NM.Handler {
+            id: nmHandler
+        }
 }

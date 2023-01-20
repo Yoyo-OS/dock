@@ -22,6 +22,11 @@
 
 #include <QQuickView>
 #include <QTimer>
+#include <QSettings>
+#include <QScreen>
+#include <NETWM>
+#include <KWindowSystem>
+#include <KWindowEffects>
 
 #include "activity.h"
 #include "docksettings.h"
@@ -33,6 +38,8 @@ class MainWindow : public QQuickView
 {
     Q_OBJECT
     Q_PROPERTY(QRect primaryGeometry READ primaryGeometry NOTIFY primaryGeometryChanged)
+    Q_PROPERTY(bool twentyFourTime READ twentyFourTime NOTIFY twentyFourTimeChanged)
+    Q_PROPERTY(QRect screenRect READ screenRect NOTIFY screenRectChanged)
     Q_PROPERTY(int direction READ direction NOTIFY directionChanged)
     Q_PROPERTY(int visibility READ visibility NOTIFY visibilityChanged)
     Q_PROPERTY(int style READ style NOTIFY styleChanged)
@@ -40,7 +47,10 @@ class MainWindow : public QQuickView
 public:
     explicit MainWindow(QQuickView *parent = nullptr);
     ~MainWindow();
-
+    bool twentyFourTime();
+    QRect screenRect();
+    void updateGeometry();
+    void setTwentyFourTime(bool t);
     // DBus interface
     void add(const QString &desktop);
     void remove(const QString &desktop);
@@ -67,8 +77,11 @@ signals:
     void primaryGeometryChanged();
     void visibilityChanged();
     void styleChanged();
+    void screenRectChanged();
+    void twentyFourTimeChanged();
 
 private:
+
     QRect windowRect() const;
     void resizeWindow();
     void initScreens();
@@ -98,8 +111,9 @@ private:
     FakeWindow *m_fakeWindow;
     TrashManager *m_trashManager;
 
+    bool m_twentyFourTime;
     bool m_hideBlocked;
-
+    QRect m_screenRect;
     QTimer *m_showTimer;
     QTimer *m_hideTimer;
 };
