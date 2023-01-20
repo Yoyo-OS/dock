@@ -17,7 +17,7 @@ ListView {
     property real itemWidth: root.iconSize + FishUI.Units.largeSpacing
 
     Layout.fillHeight: true
-    Layout.preferredWidth: (itemWidth + (count - 1) * FishUI.Units.smallSpacing) * count
+    Layout.preferredWidth: itemWidth * count
 
     model: SystemTrayModel {
         id: trayModel
