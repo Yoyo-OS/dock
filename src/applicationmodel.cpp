@@ -197,15 +197,11 @@ bool ApplicationModel::openNewInstance(const QString &appId)
         return false;
 
     if (!item->exec.isEmpty()) {
-        QStringList args = item->exec.split(" ");
-        QString exec = args.first();
-        args.removeFirst();
+        QProcess *proc = new QProcess(this);
 
-        if (!args.isEmpty()) {
-            ProcessProvider::startDetached(exec, args);
-        } else {
-            ProcessProvider::startDetached(exec);
-        }
+        connect(proc, static_cast<void (QProcess::*)(int)>(&QProcess::finished), proc, &QProcess::deleteLater);
+
+        proc->startDetached(item->exec);
     } else {
         ProcessProvider::startDetached(appId);
     }
@@ -353,11 +349,20 @@ void ApplicationModel::initPinnedApplications()
     QStringList groups = set->childGroups();
 
     // Launcher
+    ApplicationItem *launcheritem = new ApplicationItem;
+    launcheritem->id = "yoyo-launcher";
+    launcheritem->exec = "yoyo-launcher";
+    launcheritem->iconName = "qrc:/images/launcher.svg";
+    launcheritem->visibleName = tr("Launcher");
+    launcheritem->fixed = true;
+    m_appItems.append(launcheritem);
+
+    // Multitasking
     ApplicationItem *item = new ApplicationItem;
-    item->id = "yoyo-launcher";
-    item->exec = "yoyo-launcher";
-    item->iconName = "qrc:/images/launcher.svg";
-    item->visibleName = tr("Launcher");
+    item->id = "yoyo-multitasking";
+    item->exec = "qdbus org.kde.kglobalaccel /component/kwin invokeShortcut \"ShowDesktopGrid\"";
+    item->iconName = "qrc:/images/multitasking-view.svg";
+    item->visibleName = tr("Multitasking");
     item->fixed = true;
     m_appItems.append(item);
 

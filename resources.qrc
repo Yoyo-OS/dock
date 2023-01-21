@@ -133,5 +133,6 @@
         <file>images/dark/system-shutdown-symbolic.svg</file>
         <file>images/dark/system-shutdown.svg</file>
         <file>images/dark/system-suspend.svg</file>
+        <file>images/multitasking-view.svg</file>
     </qresource>
 </RCC>

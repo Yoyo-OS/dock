@@ -38,6 +38,14 @@
     </message>
 </context>
 <context>
+    <name>ApplicationModel</name>
+    <message>
+        <location filename="../src/applicationmodel.cpp" line="365"/>
+        <source>Multitasking</source>
+        <translation>多任务视窗</translation>
+    </message>
+</context>
+<context>
     <name>main</name>
     <message>
         <location filename="../qml/main.qml" line="114"/>

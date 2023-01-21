@@ -52,7 +52,7 @@ DockItem {
 
     onPositionChanged: updateGeometry()
     onPressed: updateGeometry()
-    onRightClicked: if (model.appId !== "yoyo-launcher") contextMenu.show()
+    onRightClicked: if (model.appId !== "yoyo-launcher"&&model.appId !== "yoyo-multitasking") contextMenu.show()
 
     onClicked: {
         if (mouse.button === Qt.LeftButton)
