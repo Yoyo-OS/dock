@@ -105,6 +105,8 @@ qt5_add_dbus_adaptor(appmenu_SRCS src/appmenu/com.yoyo.cappmenu.xml
 qt5_add_dbus_adaptor(DBUS_SOURCES
                      src/com.yoyo.Dock.xml
                      src/mainwindow.h MainWindow)
+
+add_subdirectory(plugins/settings)
 set_source_files_properties(${DBUS_SOURCES} PROPERTIES SKIP_AUTOGEN ON)
 add_executable(${PROJECT_NAME} ${SRCS} ${appmenu_SRCS} ${DBUS_SOURCES})
 target_include_directories(${PROJECT_NAME} PUBLIC ${XCB_LIBS_INCLUDE_DIRS})
