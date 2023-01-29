@@ -20,10 +20,6 @@
         <file>images/media-playback-start-symbolic.svg</file>
         <file>images/media-skip-backward-symbolic.svg</file>
         <file>images/media-skip-forward-symbolic.svg</file>
-        <file>images/light/audio-volume-high-symbolic.svg</file>
-        <file>images/light/audio-volume-low-symbolic.svg</file>
-        <file>images/light/audio-volume-medium-symbolic.svg</file>
-        <file>images/light/audio-volume-muted-symbolic.svg</file>
         <file>images/light/battery-level-0-charging-symbolic.svg</file>
         <file>images/light/battery-level-0-symbolic.svg</file>
         <file>images/light/battery-level-10-charging-symbolic.svg</file>
@@ -47,7 +43,6 @@
         <file>images/light/battery-level-100-charging-symbolic.svg</file>
         <file>images/light/battery-level-100-symbolic.svg</file>
         <file>images/light/bluetooth-symbolic.svg</file>
-        <file>images/light/brightness.svg</file>
         <file>images/light/close_normal.svg</file>
         <file>images/light/control.svg</file>
         <file>images/light/dark-mode.svg</file>
@@ -73,13 +68,8 @@
         <file>images/light/system-lock-screen.svg</file>
         <file>images/light/system-log-out.svg</file>
         <file>images/light/system-reboot.svg</file>
-        <file>images/light/system-shutdown-symbolic.svg</file>
         <file>images/light/system-shutdown.svg</file>
         <file>images/light/system-suspend.svg</file>
-        <file>images/dark/audio-volume-high-symbolic.svg</file>
-        <file>images/dark/audio-volume-low-symbolic.svg</file>
-        <file>images/dark/audio-volume-medium-symbolic.svg</file>
-        <file>images/dark/audio-volume-muted-symbolic.svg</file>
         <file>images/dark/battery-level-0-charging-symbolic.svg</file>
         <file>images/dark/battery-level-0-symbolic.svg</file>
         <file>images/dark/battery-level-10-charging-symbolic.svg</file>
@@ -103,7 +93,6 @@
         <file>images/dark/battery-level-100-charging-symbolic.svg</file>
         <file>images/dark/battery-level-100-symbolic.svg</file>
         <file>images/dark/bluetooth-symbolic.svg</file>
-        <file>images/dark/brightness.svg</file>
         <file>images/dark/camera.svg</file>
         <file>images/dark/close_normal.svg</file>
         <file>images/dark/control.svg</file>
@@ -130,7 +119,6 @@
         <file>images/dark/system-lock-screen.svg</file>
         <file>images/dark/system-log-out.svg</file>
         <file>images/dark/system-reboot.svg</file>
-        <file>images/dark/system-shutdown-symbolic.svg</file>
         <file>images/dark/system-shutdown.svg</file>
         <file>images/dark/system-suspend.svg</file>
         <file>images/multitasking-view.svg</file>
