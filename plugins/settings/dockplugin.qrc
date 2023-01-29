@@ -3,6 +3,5 @@
         <file>qml/main.qml</file>
         <file>images/dock_bottom.svg</file>
         <file>images/dock_straight.svg</file>
-        <file>images/sidebar/dock.svg</file>
     </qresource>
 </RCC>
