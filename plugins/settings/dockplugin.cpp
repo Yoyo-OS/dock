@@ -12,7 +12,6 @@ QList<QObject*> DockPlugin::dataList()
     DataObject *data1 = new DataObject(this);
     data1->setName("dock");
     data1->setTitle(tr("Dock"));
-    data1->setIconColor(QColor("#8585FC"));
     data1->setIconSource("qrc:/dock/images/sidebar/dock.svg");
     data1->setPage("qrc:/dock/qml/main.qml");
     data1->setCategory(DISPLAYANDAPPEARANCE);
