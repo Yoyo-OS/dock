@@ -238,17 +238,13 @@ Item {
 
                         spacing: FishUI.Units.largeSpacing
 
-                        Image {
-                            id: volumeIcon
-                            visible: controlCenter.item.defaultSink
-                            source: "qrc:/images/" + (root.darkMode ? "dark/" : "light/") + controlCenter.item.volumeIconName + ".svg"
-                            width: root.iconSize
-                            height: width
-                            sourceSize: Qt.size(width, height)
-                            asynchronous: true
-                            Layout.alignment: Qt.AlignCenter
-                            antialiasing: true
+                        Label{
+                            font.family: "FluentSystemIcons-Regular"
+                            color: FishUI.Theme.textColor
+                            font.pixelSize: root.iconSize
+                            antialiasing: false
                             smooth: false
+                            text: controlCenter.item.volumeIconName
                         }
 
                         Image {
@@ -306,16 +302,16 @@ Item {
                         shutdownDialog.item.open()
                     }
 
-                    Image {
+                    Label{
                         id: shutdownIcon
+                        font.family: "FluentSystemIcons-Regular"
                         anchors.centerIn: parent
-                        width: root.iconSize
                         height: width
-                        sourceSize: Qt.size(width, height)
-                        source: "qrc:/images/" + (root.darkMode ? "dark/" : "light/") + "system-shutdown-symbolic.svg"
-                        asynchronous: true
-                        antialiasing: true
+                        color: FishUI.Theme.textColor
+                        font.pixelSize: root.iconSize
+                        antialiasing: false
                         smooth: false
+                        text: "\uf610"
                     }
                 }
 

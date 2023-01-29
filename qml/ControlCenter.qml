@@ -29,13 +29,13 @@ ControlCenterDialog {
 
     property var volumeIconName: {
         if (defaultSinkValue <= 0)
-            return "audio-volume-muted-symbolic"
+            return "\ueb4d"
         else if (defaultSinkValue <= 25)
-            return "audio-volume-low-symbolic"
+            return "\ueb3b"
         else if (defaultSinkValue <= 75)
-            return "audio-volume-medium-symbolic"
+            return "\ueb40"
         else
-            return "audio-volume-high-symbolic"
+            return "\ueb46"
     }
 
     onBluetoothDisConnectedChanged: {
@@ -314,13 +314,13 @@ ControlCenterDialog {
                 anchors.bottomMargin: FishUI.Units.smallSpacing
                 spacing: FishUI.Units.largeSpacing
 
-                Image {
-                    height: 16
-                    width: height
-                    sourceSize: Qt.size(width, height)
-                    source: "qrc:/images/" + (FishUI.Theme.darkMode ? "dark" : "light") + "/brightness.svg"
+                Label{
+                    font.family: "FluentSystemIcons-Regular"
+                    color: FishUI.Theme.textColor
+                    font.pixelSize: 20
+                    antialiasing: false
                     smooth: false
-                    antialiasing: true
+                    text: "\ue1fb"
                 }
 
                 Timer {
@@ -371,13 +371,13 @@ ControlCenterDialog {
                 anchors.bottomMargin: FishUI.Units.smallSpacing
                 spacing: FishUI.Units.largeSpacing
 
-                Image {
-                    height: 16
-                    width: height
-                    sourceSize: Qt.size(width, height)
-                    source: "qrc:/images/" + (FishUI.Theme.darkMode ? "dark" : "light") + "/" + control.volumeIconName + ".svg"
+                Label{
+                    font.family: "FluentSystemIcons-Regular"
+                    color: FishUI.Theme.textColor
+                    font.pixelSize: 20
+                    antialiasing: false
                     smooth: false
-                    antialiasing: true
+                    text: controlCenter.item.volumeIconName
                 }
 
                 Slider {

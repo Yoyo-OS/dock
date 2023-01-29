@@ -12,7 +12,7 @@ QList<QObject*> DockPlugin::dataList()
     DataObject *data1 = new DataObject(this);
     data1->setName("dock");
     data1->setTitle(tr("Dock"));
-    data1->setIconId("\ueb9b");
+    data1->setIconId("\uf4c4");
     data1->setPage("qrc:/dock/qml/main.qml");
     data1->setCategory(DISPLAYANDAPPEARANCE);
     dataList.append(data1);
