@@ -320,6 +320,7 @@ Item {
             id: datetimeItem
             animationEnabled: true
             Layout.fillHeight: true
+            Layout.rightMargin: FishUI.Units.smallSpacing
             Layout.preferredWidth: _dateTimeLayout.implicitWidth + FishUI.Units.smallSpacing
 
             onClicked: {
