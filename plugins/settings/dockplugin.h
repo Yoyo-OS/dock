@@ -4,9 +4,9 @@
 #include <QObject>
 #include <QtPlugin>
 #include <QQmlApplicationEngine>
-#include <QTranslator>
 #include <interfaceplugin.h>
 #include <dataObject.h>
+
 class DockPlugin : public QObject, public InterfacePlugin
 {
     Q_OBJECT

@@ -14,6 +14,10 @@ find_package(Qt5 CONFIG REQUIRED Widgets DBus X11Extras Concurrent LinguistTools
 find_package(KF5WindowSystem REQUIRED)
 find_package(PkgConfig REQUIRED)
 
+file(GLOB TS_FILES translations/*.ts)
+# 更新 .ts 翻译文件
+execute_process(COMMAND bash ${CMAKE_CURRENT_SOURCE_DIR}/translations/translate_update.sh WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/translations)
+
 pkg_check_modules(XCB_LIBS REQUIRED xcb)
 
 set(SRCS
@@ -122,7 +126,6 @@ target_link_libraries(${PROJECT_NAME} PRIVATE
         ${XCB_LIBS_LIBRARIES}
 )
 
-file(GLOB TS_FILES translations/*.ts)
 qt5_create_translation(QM_FILES ${TS_FILES})
 add_custom_target(translations DEPENDS ${QM_FILES} SOURCES ${TS_FILES})
 add_dependencies(${PROJECT_NAME} translations)

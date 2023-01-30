@@ -31,15 +31,17 @@ ItemPage {
                     spacing: FishUI.Units.largeSpacing * 2
 
                     IconCheckBox {
-                        source: "qrc:/dock/images/dock_bottom.svg"
+                        source: FishUI.Theme.darkMode? "qrc:/dock/images/darkdock.png" : "qrc:/dock/images/lightdock.png"
                         text: qsTr("Center")
+                        iconSize: 140
                         checked: dock.dockStyle === 0
                         onClicked: dock.setDockStyle(0)
                     }
 
                     IconCheckBox {
-                        source: "qrc:/dock/images/dock_straight.svg"
+                        source: FishUI.Theme.darkMode? "qrc:/dock/images/darkfill.png" : "qrc:/dock/images/lightfill.png"
                         text: qsTr("Full")
+                        iconSize: 140
                         checked: dock.dockStyle === 1
                         onClicked: dock.setDockStyle(1)
                     }
