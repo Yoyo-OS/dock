@@ -119,35 +119,35 @@ QString Battery::statusString() const
 QString Battery::iconSource() const
 {
     int percent = this->chargePercent();
-    int range = 0;
+    QString range;
 
     if (percent >= 95)
-        range = 100;
+        range = "\ue144";
     else if (percent >= 85)
-        range = 90;
+        range = "\uf1ce";
     else if (percent>= 75)
-        range = 80;
+        range = "\uf1cc";
     else if (percent >= 65)
-        range = 70;
+        range = "\uf1ca";
     else if (percent >= 55)
-        range = 60;
+        range = "\uf1c8";
     else if (percent >= 45)
-        range = 50;
+        range = "\uf1c6";
     else if (percent >= 35)
-        range = 40;
+        range = "\uf1c4";
     else if (percent >= 25)
-        range = 30;
+        range = "\uf1c2";
     else if (percent >= 15)
-        range = 20;
+        range = "\uf1c0";
     else if (percent >= 5)
-        range = 10;
+        range = "\uf1be";
     else
-        range = 0;
+        range = "\uf1bc";
 
     if (m_onBattery)
-        return QString("battery-level-%1-symbolic.svg").arg(range);
+        return range;
 
-    return QString("battery-level-%1-charging-symbolic.svg").arg(range);
+    return "\uf1d0";
 }
 
 void Battery::onPropertiesChanged(const QString &ifaceName, const QVariantMap &changedProps, const QStringList &invalidatedProps)

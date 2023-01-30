@@ -265,19 +265,17 @@ Item {
 
                         // Battery Item
                         RowLayout {
+                            Layout.fillHeight: true
                             visible: battery.available
 
-                            Image {
-                                id: batteryIcon
-                                height: root.iconSize
-                                width: height + 6
-                                sourceSize: Qt.size(width, height)
-                                source: "qrc:/images/" + (root.darkMode ? "dark/" : "light/") + battery.iconSource
-                                Layout.alignment: Qt.AlignCenter
-                                antialiasing: true
+                            Label{
+                                font.family: "FluentSystemIcons-Regular"
+                                color: FishUI.Theme.textColor
+                                font.pixelSize: root.iconSize
+                                antialiasing: false
                                 smooth: false
+                                text: battery.iconSource
                             }
-
                             Label {
                                 text: battery.chargePercent + "%"
                                 font.pointSize: root.fontSize
