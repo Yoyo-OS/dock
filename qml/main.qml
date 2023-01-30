@@ -29,7 +29,7 @@ import FishUI 1.0 as FishUI
 Item {
     id: root
     visible: true
-    property int iconSize: 18
+    property int iconSize: height /3
 
     property bool isHorizontal: Settings.direction === DockSettings.Bottom
     property bool darkMode: FishUI.Theme.darkMode
@@ -388,40 +388,12 @@ Item {
             property int startY: -1
             property bool activated: false
 
-            onActivatedChanged: {
-                // TODO
-                // if (activated)
-                //     acticity.move()
-            }
-
             onPressed: {
                 startY = mouse.y
             }
 
             onReleased: {
                 startY = -1
-            }
-
-            onDoubleClicked: {
-                acticity.toggleMaximize()
-            }
-
-            onMouseYChanged: {
-                if (startY === parseInt(mouse.y)) {
-                    activated = false
-                    return
-                }
-
-                // Up
-                if (startY > parseInt(mouse.y)) {
-                    activated = false
-                    return
-                }
-
-                if (mouse.y > rootItem.height)
-                    activated = true
-                else
-                    activated = false
             }
         }
 

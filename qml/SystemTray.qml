@@ -5,7 +5,66 @@ import QtGraphicalEffects 1.0
 import Yoyo.Dock 1.0
 import FishUI 1.0 as FishUI
 
-ListView {
+RowLayout {
+    id:trayBar
+    clip: true
+    //layoutDirection: Qt.RightToLeft
+    property real itemWidth: root.iconSize + FishUI.Units.largeSpacing
+    property bool ishide: false
+    property real trayViewWidth: (trayBar.itemWidth+FishUI.Units.smallSpacing / 2) * trayView.count
+
+    Layout.topMargin: 0
+    Layout.bottomMargin: 0
+    Layout.fillHeight: true
+    Layout.preferredWidth: trayView.Layout.preferredWidth + (itemWidth+FishUI.Units.smallSpacing / 2)
+
+    NumberAnimation {
+        id: hideAnimation;
+        target: trayView;
+        property: "Layout.preferredWidth";
+        to: 0;
+        duration: 200;
+    }
+
+    NumberAnimation {
+        id: showAnimation;
+        target: trayView;
+        property: "Layout.preferredWidth";
+        to: trayViewWidth;
+        duration: 200;
+    }
+
+    StandardItem {
+        id: hideItem
+
+        animationEnabled: true
+        Layout.fillHeight: true
+        Layout.preferredWidth: hideIcon.implicitWidth + FishUI.Units.smallSpacing
+        onClicked: {
+            if(ishide)
+            {
+                showAnimation.running = true;
+            }else{
+                hideAnimation.running = true;
+            }
+            ishide = !ishide
+        }
+
+        Label{
+            id: hideIcon
+            font.family: "FluentSystemIcons-Regular"
+            anchors.centerIn: parent
+            height: width
+
+            color: FishUI.Theme.textColor
+            font.pixelSize: root.iconSize
+            antialiasing: false
+            smooth: false
+            text: ishide ? "\uf266" : "\uf26a"
+        }
+    }
+
+    ListView {
     id: trayView
 
     orientation: Qt.Horizontal
@@ -14,10 +73,9 @@ ListView {
     clip: true
     spacing: FishUI.Units.smallSpacing / 2
 
-    property real itemWidth: root.iconSize + FishUI.Units.largeSpacing
-
     Layout.fillHeight: true
-    Layout.preferredWidth: (itemWidth+FishUI.Units.smallSpacing / 2) * count
+
+    Layout.preferredWidth: trayViewWidth
 
     model: SystemTrayModel {
         id: trayModel
@@ -38,7 +96,7 @@ ListView {
         property int dragItemIndex: index
         property bool dragStarted: false
 
-        width: trayView.itemWidth
+        width: trayBar.itemWidth
         height: ListView.view.height
         animationEnabled: true
 
@@ -126,4 +184,5 @@ ListView {
 
         popupText: model.toolTip ? model.toolTip : model.title
     }
+}
 }
