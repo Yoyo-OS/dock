@@ -145,4 +145,70 @@
         <translation>正在使用相机</translation>
     </message>
 </context>
+<context>
+    <name>DockPlugin</name>
+    <message>
+        <source>Dock</source>
+        <translation>码头</translation>
+    </message>
+</context>
+<context>
+    <name>main</name>
+    <message>
+        <source>Dock</source>
+        <translation>码头</translation>
+    </message>
+    <message>
+    <source>Style</source>
+    <translation>样式</translation>
+</message>
+<message>
+<source>Center</source>
+<translation>居中</translation>
+</message>
+<message>
+<source>Full</source>
+<translation>铺满</translation>
+</message>
+<message>
+<source>Size</source>
+<translation>大小</translation>
+</message>
+<message>
+<source>Small</source>
+<translation>小</translation>
+</message>
+<message>
+<source>Medium</source>
+<translation>中</translation>
+</message>
+<message>
+<source>Large</source>
+<translation>大</translation>
+</message>
+<message>
+<source>Large</source>
+<translation>大</translation>
+</message>
+<message>
+<source>Huge</source>
+<translation>巨大</translation>
+</message>
+<message>
+<source>Display mode</source>
+<translation>显示模式</translation>
+</message>
+<message>
+<source>Always show</source>
+<translation>总是显示</translation>
+</message>
+<message>
+<source>Always hide</source>
+<translation>总是隐藏</translation>
+</message>
+<message>
+<source>Smart hide</source>
+<translation>智能显示</translation>
+</message>
+</context>
 </TS>

@@ -4,8 +4,11 @@
 #include <QObject>
 #include <QtPlugin>
 #include <QQmlApplicationEngine>
+#include <QTranslator>
 #include <interfaceplugin.h>
 #include <dataObject.h>
+#include <QFile>
+#include <QGuiApplication>
 
 class DockPlugin : public QObject, public InterfacePlugin
 {

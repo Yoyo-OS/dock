@@ -21,6 +21,15 @@ QList<QObject*> DockPlugin::dataList()
 
 void DockPlugin::initialize()
 {
+    QString qmFilePath = QString("%1/%2.qm").arg("/usr/share/yoyo-dock/translations/").arg(QLocale::system().name());
+    if (QFile::exists(qmFilePath)) {
+        QTranslator *translator = new QTranslator(this);
+        if (translator->load(qmFilePath)) {
+            QGuiApplication::installTranslator(translator);
+        } else {
+            translator->deleteLater();
+        }
+    }
     // QML
     const char *uri = "Yoyo.Settings";
     qmlRegisterType<Dock>(uri, 1, 0, "Dock");
