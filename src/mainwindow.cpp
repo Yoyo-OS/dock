@@ -123,6 +123,16 @@ void MainWindow::updateGeometry()
     KWindowEffects::enableBlurBehind(winId(), true);
 }
 
+void MainWindow::updateScreenRect()
+{
+    const QRect rect = screen()->geometry();
+
+    if (m_screenRect != rect) {
+        m_screenRect = rect;
+        emit screenRectChanged();
+    }
+}
+
 void MainWindow::remove(const QString &desktop)
 {
     m_appModel->removeItem(desktop);

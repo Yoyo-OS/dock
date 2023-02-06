@@ -10,8 +10,9 @@ Item {
     property bool checked: false
     property alias icon: _image.source
     property alias label: _titleLabel.text
-
+    property bool labelClickable: false
     signal clicked
+    signal labelClicked
     signal pressAndHold
 
     property var backgroundColor: FishUI.Theme.darkMode ? Qt.rgba(255, 255, 255, 0.1)
@@ -26,27 +27,11 @@ Item {
     property var highlightPressedColor: FishUI.Theme.darkMode ? Qt.lighter(FishUI.Theme.highlightColor, 1.1)
                                                               : Qt.darker(FishUI.Theme.highlightColor, 1.2)
 
-    MouseArea {
-        id: _mouseArea
-        anchors.fill: parent
-        hoverEnabled: true
-        acceptedButtons: Qt.LeftButton
-        onClicked: control.clicked()
-
-        onPressedChanged: {
-            imageItem.scale = pressed ? 0.95 : 1.0
-        }
-
-        onPressAndHold: {
-            control.pressAndHold()
-        }
-    }
-
     ColumnLayout {
         anchors.fill: parent
         anchors.leftMargin: FishUI.Theme.smallRadius
         anchors.rightMargin: FishUI.Theme.smallRadius
-        spacing: FishUI.Units.largeSpacing
+        //spacing: FishUI.Units.largeSpacing
 
         Item {
             Layout.fillHeight: true
@@ -100,17 +85,39 @@ Item {
                 antialiasing: true
                 smooth: true
             }
-        }
+            MouseArea {
+                id: _mouseArea
+                anchors.fill: parent
+                hoverEnabled: true
+                acceptedButtons: Qt.LeftButton
+                onClicked: control.clicked()
 
-        Label {
-            id: _titleLabel
-//            color: control.checked ? FishUI.Theme.highlightedTextColor : FishUI.Theme.textColor
-            Layout.preferredHeight: control.height * 0.15
+                onPressedChanged: {
+                    imageItem.scale = pressed ? 0.95 : 1.0
+                }
+
+                onPressAndHold: {
+                    control.pressAndHold()
+                }
+            }
+        }
+        StandardItem {
+            Layout.margins: 0
+            animationEnabled: labelClickable
+            backColorEnabled: !labelClickable
+            Layout.preferredHeight: control.height * 0.3
             Layout.alignment: Qt.AlignHCenter
-            horizontalAlignment: Qt.AlignHCenter
             Layout.fillWidth: true
-            elide: Text.ElideMiddle
-            visible: text
+            onClicked: control.labelClicked()
+            Label {
+                id: _titleLabel
+    //            color: control.checked ? FishUI.Theme.highlightedTextColor : FishUI.Theme.textColor
+                horizontalAlignment: Qt.AlignHCenter
+                Layout.alignment: Qt.AlignHCenter
+                anchors.fill: parent
+                elide: Text.ElideMiddle
+                visible: text
+            }
         }
 
         Item {

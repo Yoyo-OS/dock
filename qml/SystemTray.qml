@@ -10,7 +10,6 @@ RowLayout {
     clip: true
     //layoutDirection: Qt.RightToLeft
     property real itemWidth: root.iconSize + FishUI.Units.largeSpacing
-    property bool ishide: false
     property real trayViewWidth: (trayBar.itemWidth+FishUI.Units.smallSpacing / 2) * trayView.count
 
     Layout.topMargin: 0
@@ -41,13 +40,12 @@ RowLayout {
         Layout.fillHeight: true
         Layout.preferredWidth: hideIcon.implicitWidth + FishUI.Units.smallSpacing
         onClicked: {
-            if(ishide)
+            if(trayView.Layout.preferredWidth)
             {
-                showAnimation.running = true;
-            }else{
                 hideAnimation.running = true;
+            }else{
+                showAnimation.running = true;
             }
-            ishide = !ishide
         }
 
         Label{
@@ -60,7 +58,7 @@ RowLayout {
             font.pixelSize: root.iconSize
             antialiasing: false
             smooth: false
-            text: ishide ? "\uf266" : "\uf26a"
+            text: trayView.Layout.preferredWidth ? "\uf26a" : "\uf266"
         }
     }
 

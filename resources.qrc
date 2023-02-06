@@ -122,5 +122,8 @@
         <file>images/dark/system-shutdown.svg</file>
         <file>images/dark/system-suspend.svg</file>
         <file>images/multitasking-view.svg</file>
+        <file>qml/BluetoothDialog.qml</file>
+        <file>qml/Hideable.qml</file>
+        <file>qml/HorizontalDivider.qml</file>
     </qresource>
 </RCC>

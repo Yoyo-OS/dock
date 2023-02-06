@@ -193,6 +193,7 @@ ControlCenterDialog {
     }
 
     function adjustCorrectLocation() {
+        mainWindow.updateScreenRect()
         var posX = control.position.x
         var posY = control.position.y
 
@@ -200,7 +201,6 @@ ControlCenterDialog {
             posX = mainWindow.screenRect.x + mainWindow.screenRect.width - control.width - control.margin
 
         posY = mainWindow.screenRect.height - root.height - control.margin - control.height
-
         if(Settings.style === 0)
         {
             posX = control.position.x - control.width / 2

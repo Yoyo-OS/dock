@@ -69,6 +69,7 @@ public:
     void setStyle(int style);
 
     Q_INVOKABLE void updateSize();
+    Q_INVOKABLE void updateScreenRect();
 
 signals:
     void resizingFished();

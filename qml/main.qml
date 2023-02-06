@@ -404,6 +404,12 @@ Item {
         }
 
         Loader {
+            id: bluetoothDialog
+            sourceComponent: BluetoothDialog {}
+            asynchronous: true
+        }
+
+        Loader {
             id: shutdownDialog
             sourceComponent: ShutdownDialog {}
             asynchronous: true

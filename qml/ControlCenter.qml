@@ -80,6 +80,7 @@ ControlCenterDialog {
     }
 
     function adjustCorrectLocation() {
+        mainWindow.updateScreenRect()
         var posX = control.position.x
         var posY = control.position.y
 
@@ -239,12 +240,19 @@ ControlCenterDialog {
                     id: bluetoothItem
                     Layout.fillHeight: true
                     Layout.preferredWidth: cardItems.cellWidth
+                    labelClickable: true
                     icon: FishUI.Theme.darkMode || checked ? "qrc:/images/dark/bluetooth-symbolic.svg"
                                                            : "qrc:/images/light/bluetooth-symbolic.svg"
                     checked: !control.bluetoothDisConnected
-                    label: qsTr("Bluetooth")
+                    label: qsTr("Bluetooth ▼")
                     visible: Bluez.Manager.adapters.length
                     onClicked: control.toggleBluetooth()
+                    onLabelClicked: {
+                        console.log("asfsdf")
+                        control.visible = false
+                        bluetoothDialog.item.position = control.position
+                        bluetoothDialog.item.open()
+                    }
                     onPressAndHold: {
                         control.visible = false
                         process.startDetached("yoyo-settings", ["-m", "bluetooth"])
